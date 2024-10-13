@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.ActivityRankingDTO;
 import org.example.model.Activity;
 import org.example.model.Group;
 import org.example.model.Lesson;
@@ -12,6 +13,7 @@ import org.example.reopsitory.StudentRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -50,9 +52,15 @@ public class ActivityController {
 
     @GetMapping("/ranking")
     @Transactional
-    public List<Object[]> getRanking(@RequestParam("groupId") long groupId) {
+    public List<ActivityRankingDTO> getRanking(@RequestParam("groupId") long groupId) {
         Group group = groupRepository.findById(groupId); //todo -> dodać wyjątek na brak grupy
         String subject = group.getSubject();
         return activityRepository.getRanking(subject);
+    }
+
+    @GetMapping("/groupRanking")
+    @Transactional
+    public List<ActivityRankingDTO> getGroupRanking(@RequestParam("groupId") long groupId) {
+        return activityRepository.getGroupRanking(groupId);
     }
 }
