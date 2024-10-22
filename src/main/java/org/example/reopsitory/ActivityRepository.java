@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,7 +20,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     List<ActivityRankingDTO> getRanking(String subject);
 
     @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, sum(a.points)," +
-            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and date(a2.date) = current_date())) from Activity a " +
-            "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by sum(a.points) desc")
-    List<ActivityRankingDTO> getGroupRanking(Long groupId);
+            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and a2.date = CURRENT_DATE)) from Activity a " +
+            "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by ?2")
+    List<ActivityRankingDTO> getGroupRanking(Long groupId, String order);
 }
