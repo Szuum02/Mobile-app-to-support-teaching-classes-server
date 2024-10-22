@@ -2,6 +2,7 @@ package org.example.test.activity.repository;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityRankingDTO;
 import org.example.reopsitory.ActivityRepository;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +29,7 @@ public class ActivityRepositoryTest {
     ActivityRepository activityRepository;
 
     @Test
-    @DatabaseSetup("classpath:setup.xml")
+    @DatabaseSetup("classpath:activity/rankingSetup.xml")
     void givenSubject_whenShowPoints_thenReturnTotalRanking() {
         List<ActivityRankingDTO> ranking = activityRepository.getRanking("subject1");
         assertThat(ranking.size()).isEqualTo(4);
@@ -38,7 +40,7 @@ public class ActivityRepositoryTest {
     }
 
     @Test
-    @DatabaseSetup("classpath:setup.xml")
+    @DatabaseSetup("classpath:activity/rankingSetup.xml")
     void givenGroup_whenShowPoints_thenReturnGroupRanking() {
         List<ActivityRankingDTO> ranking = activityRepository.getGroupRanking(1L);
         assertThat(ranking.size()).isEqualTo(2);
@@ -46,5 +48,23 @@ public class ActivityRepositoryTest {
         assertThat(ranking.get(0).getTodayPoints()).isEqualTo(4);
         assertThat(ranking.get(1).getTotalPoints()).isEqualTo(2);
         assertThat(ranking.get(1).getTodayPoints()).isNull();
+    }
+
+    @Test
+    @DatabaseSetup("classpath:activity/studentHistory.xml")
+    void givenStudentAndGroup_whenShowPoints_thenReturnActivityHistory() {
+        List<ActivityDTO> activityHistory = activityRepository.getStudentActivityHistory(2L, 1L);
+        assertThat(activityHistory.size()).isEqualTo(4);
+        assertThat(activityHistory.get(0).getDate()).isEqualTo(LocalDateTime.of(2024, 6, 6, 9, 10, 0));
+        assertThat(activityHistory.get(1).getPoints()).isEqualTo(3);
+    }
+
+    @Test
+    @DatabaseSetup("classpath:activity/studentHistory.xml")
+    void givenStudentAndGroup_whenShowActivityPlot_thenReturnPointsHistory() {
+        List<Integer> activities = activityRepository.getStudentActivities(2L, 1L);
+        assertThat(activities.size()).isEqualTo(3);
+        assertThat(activities.get(0)).isEqualTo(2);
+        assertThat(activities.get(1)).isEqualTo(3);
     }
 }
