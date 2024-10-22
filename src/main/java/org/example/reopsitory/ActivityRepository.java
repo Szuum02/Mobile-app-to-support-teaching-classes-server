@@ -1,5 +1,6 @@
 package org.example.reopsitory;
 
+import org.example.dtos.TeacherActivityRankingDTO;
 import org.example.model.Activity;
 import org.example.model.Lesson;
 import org.example.model.Student;
@@ -20,7 +21,10 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     List<ActivityRankingDTO> getRanking(String subject);
 
     @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, sum(a.points)," +
-            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and a2.date = CURRENT_DATE)) from Activity a " +
-            "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by ?2")
-    List<ActivityRankingDTO> getGroupRanking(Long groupId, String order);
+            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and cast(a2.date as date) = CURRENT_DATE)) from Activity a " +
+            "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by sum(a.points) desc")
+    List<ActivityRankingDTO> getGroupRanking(Long groupId);
+
+    @Query("select org.example.dtos.ActivityDTO(a.date, a.points) from Activity a where a.student.id = ?1 and a.lesson.group.id = ?2")
+    List<TeacherActivityRankingDTO> getStudentActivityHistory(long studentId, long groupId);
 }

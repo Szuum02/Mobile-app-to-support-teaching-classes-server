@@ -61,6 +61,6 @@ public class ActivityController {
     @GetMapping("/groupRanking")
     @Transactional
     public List<ActivityRankingDTO> getGroupRanking(@RequestParam("groupId") long groupId) {
-        return activityRepository.getGroupRanking(groupId, "sum(a.points) desc");
+        return activityRepository.getGroupRanking(groupId);
     }
 }
