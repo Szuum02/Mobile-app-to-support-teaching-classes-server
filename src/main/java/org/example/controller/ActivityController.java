@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.ActivityRankingDTO;
+import org.example.exceptions.BadRequestException;
+import org.example.exceptions.InternalError;
 import org.example.model.Activity;
 import org.example.model.Group;
 import org.example.model.Lesson;
@@ -12,6 +14,7 @@ import org.example.reopsitory.ActivityRepository;
 import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.LessonRepository;
 import org.example.reopsitory.StudentRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -21,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/activity")
+@ResponseStatus(HttpStatus.OK)
 public class ActivityController {
     private final ActivityRepository activityRepository;
     private final LessonRepository lessonRepository;
@@ -37,6 +41,8 @@ public class ActivityController {
 
     @PostMapping("/add")
     @Transactional
+    @ResponseStatus(HttpStatus.CREATED)
+    @ExceptionHandler(InternalError.class)
 //    @Modifying
     public int addActivity(@RequestParam("lessonId") long lessonId, @RequestParam("studentId") long studentId,
                            @RequestParam("date") String dateString, @RequestParam("points") int points) {
@@ -49,17 +55,21 @@ public class ActivityController {
         activity.setStudent(student);
         activity.setDate(dateTime);
         activity.setPoints(points);
-        activityRepository.save(activity);
+        try {
+            activityRepository.save(activity);
+        } catch (Exception e) {
+            throw new InternalError(e.getMessage());
+        }
         return activityRepository.getStudentsPointsInLesson(studentId, lessonId);
     }
 
-    // TODO -> POST or GET (sensitive data)
     @GetMapping("/ranking")
     @Transactional
+    @ExceptionHandler(BadRequestException.class)
     public List<ActivityRankingDTO> getRanking(@RequestParam("groupId") long groupId) {
         Group group = groupRepository.findById(groupId);
         if (group == null) {
-            return new ArrayList<>();
+            throw new BadRequestException("Wrong group id");
         }
         String subject = group.getSubject();
         return activityRepository.getRanking(subject);
@@ -71,13 +81,13 @@ public class ActivityController {
         return activityRepository.getGroupRanking(groupId);
     }
 
-    @PostMapping("/studentHistory")
+    @GetMapping("/studentHistory")
     @Transactional
     public List<ActivityDTO> getStudentHistory(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
         return activityRepository.getStudentActivityHistory(studentId, groupId);
     }
 
-    @PostMapping("/plot")
+    @GetMapping("/plot")
     @Transactional
     public List<ActivityPlotDTO> getPlot(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
         return activityRepository.getStudentActivities(studentId, groupId);
