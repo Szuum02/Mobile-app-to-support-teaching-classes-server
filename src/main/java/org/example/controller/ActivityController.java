@@ -1,6 +1,8 @@
 package org.example.controller;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.ActivityDTO;
+import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.ActivityRankingDTO;
 import org.example.model.Activity;
 import org.example.model.Group;
@@ -13,6 +15,7 @@ import org.example.reopsitory.StudentRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,13 +50,17 @@ public class ActivityController {
         activity.setDate(dateTime);
         activity.setPoints(points);
         activityRepository.save(activity);
-        return activityRepository.getStudentsPointsInLesson(student, lesson);
+        return activityRepository.getStudentsPointsInLesson(studentId, lessonId);
     }
 
+    // TODO -> POST or GET (sensitive data)
     @GetMapping("/ranking")
     @Transactional
     public List<ActivityRankingDTO> getRanking(@RequestParam("groupId") long groupId) {
-        Group group = groupRepository.findById(groupId); //todo -> dodać wyjątek na brak grupy
+        Group group = groupRepository.findById(groupId);
+        if (group == null) {
+            return new ArrayList<>();
+        }
         String subject = group.getSubject();
         return activityRepository.getRanking(subject);
     }
@@ -62,5 +69,17 @@ public class ActivityController {
     @Transactional
     public List<ActivityRankingDTO> getGroupRanking(@RequestParam("groupId") long groupId) {
         return activityRepository.getGroupRanking(groupId);
+    }
+
+    @PostMapping("/studentHistory")
+    @Transactional
+    public List<ActivityDTO> getStudentHistory(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
+        return activityRepository.getStudentActivityHistory(studentId, groupId);
+    }
+
+    @PostMapping("/plot")
+    @Transactional
+    public List<ActivityPlotDTO> getPlot(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
+        return activityRepository.getStudentActivities(studentId, groupId);
     }
 }

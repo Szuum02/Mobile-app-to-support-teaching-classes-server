@@ -3,6 +3,7 @@ package org.example.test.activity.repository;
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.example.dtos.ActivityDTO;
+import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.ActivityRankingDTO;
 import org.example.reopsitory.ActivityRepository;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ActivityRepositoryTest {
     @Autowired
     ActivityRepository activityRepository;
+
+    @Test
+    @DatabaseSetup("classpath:activity/studentHistory.xml")
+    void givenStudentAndLesson_whenShowTodayPoints_thenReturnPoints() {
+        int points = activityRepository.getStudentsPointsInLesson(2L, 1L);
+        assertThat(points).isEqualTo(2);
+
+        points = activityRepository.getStudentsPointsInLesson(2L, 2L);
+        assertThat(points).isEqualTo(3);
+    }
 
     @Test
     @DatabaseSetup("classpath:activity/rankingSetup.xml")
@@ -56,15 +67,16 @@ public class ActivityRepositoryTest {
         List<ActivityDTO> activityHistory = activityRepository.getStudentActivityHistory(2L, 1L);
         assertThat(activityHistory.size()).isEqualTo(4);
         assertThat(activityHistory.get(0).getDate()).isEqualTo(LocalDateTime.of(2024, 6, 6, 9, 10, 0));
-        assertThat(activityHistory.get(1).getPoints()).isEqualTo(3);
+        assertThat(activityHistory.get(1).getPoints()).isEqualTo(4);
     }
 
     @Test
     @DatabaseSetup("classpath:activity/studentHistory.xml")
     void givenStudentAndGroup_whenShowActivityPlot_thenReturnPointsHistory() {
-        List<Integer> activities = activityRepository.getStudentActivities(2L, 1L);
+        List<ActivityPlotDTO> activities = activityRepository.getStudentActivities(2L, 1L);
         assertThat(activities.size()).isEqualTo(3);
-        assertThat(activities.get(0)).isEqualTo(2);
-        assertThat(activities.get(1)).isEqualTo(3);
+        assertThat(activities.get(0).getPoints()).isEqualTo(2);
+        assertThat(activities.get(0).getTopic()).isEqualTo("test1");
+        assertThat(activities.get(1).getPoints()).isEqualTo(3);
     }
 }
