@@ -2,6 +2,7 @@ package org.example.controller;
 
 import jakarta.transaction.Transactional;
 import org.example.dtos.Activity.LessonPointsDTO;
+import org.example.dtos.Activity.StudentHistoryDTO;
 import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.ActivityRankingDTO;
@@ -89,8 +90,10 @@ public class ActivityController {
 
     @GetMapping("/studentHistory")
     @Transactional
-    public List<ActivityDTO> getStudentHistory(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
-        return activityRepository.getStudentActivityHistory(studentId, groupId);
+    public StudentHistoryDTO getStudentHistory(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
+        List<ActivityDTO> activities = activityRepository.getStudentActivityHistory(studentId, groupId);
+        Student student = studentRepository.findById(studentId);
+        return new StudentHistoryDTO(student.getName(), student.getLastname(), student.getIndex(), activities);
     }
 
     @GetMapping("/plot")
