@@ -28,7 +28,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("/mail")
+    @PostMapping("/login")
     public Long findUserByMail(@RequestParam String mail, @RequestParam String password) {
         User user = userRepository.findUserByMail(mail);
         if (user == null || !user.getPassword().equals(password)) {
