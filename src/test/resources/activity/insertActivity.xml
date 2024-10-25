@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!--    teacher-->
+    <users2 user_id="1" mail="teacher@example.com" password="p1" is_student="false"/>
+    <teachers teacher_id="1" name="Teacher" lastname="1"/>
+    <!--    students-->
+    <users2 user_id="2" mail="student2@example.com" password="p2" is_student="true"/>
+    <students student_id="2" index_number="2" lastname="last2" name="name2" nick="s2"/>
+    <!--    groups-->
+    <groups group_id="1" subject="subject1" teacher_id="1"/>
+    <!--    lessons-->
+    <lessons lesson_id="1" classroom="1" date="[now]" topic="test" group_id="1"/>
+<!--    activities-->
+    <activities activity_id="1" date="[now]" points="1" lesson_id="2" student_id="3"/>
+<!--    groups_students-->
+    <groups_students groups_group_id="1" students_student_id="2"/>
+</dataset>

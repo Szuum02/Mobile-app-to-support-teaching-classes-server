@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Users2")
+@Table(name = "users2")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

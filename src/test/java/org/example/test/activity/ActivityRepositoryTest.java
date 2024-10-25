@@ -1,4 +1,4 @@
-package org.example.test.activity.repository;
+package org.example.test.activity;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
