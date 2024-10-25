@@ -1,6 +1,8 @@
 package org.example.controller;
 
 import org.example.model.User;
+import org.example.reopsitory.StudentRepository;
+import org.example.reopsitory.TeacherRepository;
 import org.example.reopsitory.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,13 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
     private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
+    private final TeacherRepository teacherRepository;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, StudentRepository studentRepository, TeacherRepository teacherRepository) {
         this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.teacherRepository = teacherRepository;
     }
 
     @GetMapping("/showAll")
@@ -25,7 +31,10 @@ public class UserController {
     @PostMapping("/mail")
     public User findUserByMail(@RequestParam String mail, @RequestParam String password) {
         User user = userRepository.findUserByMail(mail);
-        System.out.println(user.getMail() + " " + user.getPassword() + " " + user.getId());
+        if (user == null || !user.getPassword().equals(password)) {
+            // TODO -> handle wrong email password
+            return null;
+        }
         return user;
     }
 
