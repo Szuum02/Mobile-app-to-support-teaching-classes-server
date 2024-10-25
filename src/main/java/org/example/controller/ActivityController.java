@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.Activity.LessonPointsDTO;
 import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.ActivityRankingDTO;
@@ -37,6 +38,11 @@ public class ActivityController {
         this.lessonRepository = lessonRepository;
         this.studentRepository = studentRepository;
         this.groupRepository = groupRepository;
+    }
+
+    @GetMapping("/lessonPoints")
+    public List<LessonPointsDTO> showLessonActivity(@RequestParam("lessonId") long lessonId) {
+        return activityRepository.getLessonPoints(lessonId);
     }
 
     @PostMapping("/add")

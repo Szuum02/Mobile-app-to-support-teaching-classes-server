@@ -1,5 +1,6 @@
 package org.example.reopsitory;
 
+import org.example.dtos.Activity.LessonPointsDTO;
 import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.StudentActivityDTO;
@@ -15,6 +16,10 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
+    @Query("select new org.example.dtos.Activity.LessonPointsDTO(a.student.id, sum(a.points)) from Activity a " +
+            "where a.lesson.id = ?1 group by a.student order by a.student.lastname")
+    List<LessonPointsDTO> getLessonPoints(Long lessonId);
+
     @Query("select sum(a.points) from Activity a where a.student.id = ?1 and a.lesson.id = ?2")
     Integer getStudentsPointsInLesson(Long studentId, Long lessonId);
 
