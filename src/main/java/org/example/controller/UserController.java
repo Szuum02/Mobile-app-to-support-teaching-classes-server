@@ -29,13 +29,13 @@ public class UserController {
     }
 
     @PostMapping("/mail")
-    public User findUserByMail(@RequestParam String mail, @RequestParam String password) {
+    public Long findUserByMail(@RequestParam String mail, @RequestParam String password) {
         User user = userRepository.findUserByMail(mail);
         if (user == null || !user.getPassword().equals(password)) {
             // TODO -> handle wrong email password
             return null;
         }
-        return user;
+        return user.getId();
     }
 
     @GetMapping("/add/test")
