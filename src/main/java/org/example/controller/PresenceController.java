@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.presence.LessonPresenceDTO;
 import org.example.model.*;
 import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.LessonRepository;
@@ -25,6 +26,11 @@ public class PresenceController {
         this.lessonRepository = lessonRepository;
         this.groupRepository = groupRepository;
         this.studentRepository = studentRepository;
+    }
+
+    @GetMapping("/get")
+    public List<LessonPresenceDTO> getLessonPresence(@RequestParam Long lessonId) {
+        return presenceRepository.getLessonPresence(lessonId);
     }
 
     @DeleteMapping("/remove")
@@ -52,7 +58,6 @@ public class PresenceController {
         presence.setStudent(student);
         presence.setPresenceType(Presence.getById(Integer.parseInt(presenceType)));
         presenceRepository.save(presence);
-        System.out.println("success");
     }
 
     @GetMapping("/student/getPresences")

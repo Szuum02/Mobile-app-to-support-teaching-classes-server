@@ -1,6 +1,7 @@
 package org.example.reopsitory;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.presence.LessonPresenceDTO;
 import org.example.model.Lesson;
 import org.example.model.Presence;
 import org.example.model.Student;
@@ -14,6 +15,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PresenceRepository extends JpaRepository<Presence, Long> {
+    @Query("select new org.example.dtos.presence.LessonPresenceDTO(p.student.id, p.presenceType) from Presence p " +
+            "where p.lesson.id = ?1 order by p.student.lastname")
+    public List<LessonPresenceDTO> getLessonPresence(long lessonId);
+
     @Query("delete from Presence p where p.id = ?1 and p.date = ?2")
     public Presence removeByStudentIdAndDate(long studentId, Data date);
 
