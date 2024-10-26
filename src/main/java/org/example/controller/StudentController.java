@@ -1,17 +1,16 @@
 package org.example.controller;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.student.StudentDTO;
 import org.example.model.Student;
 import org.example.model.Teacher;
 import org.example.model.User;
+import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.StudentRepository;
 import org.example.reopsitory.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +19,20 @@ import java.util.List;
 public class StudentController {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
+    private final GroupRepository groupRepository;
 
-    public StudentController(UserRepository userRepository, StudentRepository studentRepository) {
+    public StudentController(UserRepository userRepository, StudentRepository studentRepository, GroupRepository groupRepository) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
+        this.groupRepository = groupRepository;
+    }
+
+    @PostMapping("/login")
+    public StudentDTO getStudentAfterLogin(@RequestParam Long studentId) {
+        Student student = studentRepository.findById(studentId).get();
+        StudentDTO studentDTO = studentRepository.getStudentAfterLogin(studentId);
+        studentDTO.setGroups(groupRepository.getGroupsByStudent(student));
+        return studentDTO;
     }
 
     @GetMapping("/add")
