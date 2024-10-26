@@ -2,6 +2,8 @@ package org.example.controller;
 
 import jakarta.transaction.Transactional;
 import org.example.dtos.presence.LessonPresenceDTO;
+import org.example.dtos.presence.PresenceDTO;
+import org.example.dtos.presence.StudentPresenceHistoryDTO;
 import org.example.model.*;
 import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.LessonRepository;
@@ -60,8 +62,10 @@ public class PresenceController {
         presenceRepository.save(presence);
     }
 
-    @GetMapping("/student/getPresences")
-    public List<Object[]> getStudentsPresences(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
-        return presenceRepository.getStudentPresence(studentId, groupId);
+    @GetMapping("/student/get")
+    public StudentPresenceHistoryDTO getStudentsPresences(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
+        List<PresenceDTO> presences = presenceRepository.getStudentPresence(studentId, groupId);
+        Student student = studentRepository.findById(studentId);
+        return new StudentPresenceHistoryDTO(student.getName(), student.getLastname(), student.getIndex(), presences);
     }
 }
