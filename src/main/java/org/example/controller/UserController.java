@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dtos.user.UserDTO;
 import org.example.model.User;
 import org.example.reopsitory.StudentRepository;
 import org.example.reopsitory.TeacherRepository;
@@ -29,13 +30,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Long findUserByMail(@RequestParam String mail, @RequestParam String password) {
-        User user = userRepository.findUserByMail(mail);
-        if (user == null || !user.getPassword().equals(password)) {
+    public UserDTO findUserByMail(@RequestParam String mail, @RequestParam String password) {
+        UserDTO user = userRepository.findUserByMail(mail, password);
+        if (user == null) {
             // TODO -> handle wrong email password
             return null;
         }
-        return user.getId();
+        return user;
     }
 
     @GetMapping("/add/test")
