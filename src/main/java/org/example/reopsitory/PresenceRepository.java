@@ -29,6 +29,6 @@ public interface PresenceRepository extends JpaRepository<Presence, Long> {
     public void deletePresenceByLessonAndStudent(Lesson lesson, Student student);
 
     @Query("select new org.example.dtos.presence.PresenceDTO(p.date, p.presenceType) from Presence p " +
-            "where p.student.id = ?1 and p.lesson.group.id = ?2 order by p.date")
+            "where p.student.id = ?1 and p.lesson.group.id = ?2 order by p.date desc")
     List<PresenceDTO> getStudentPresence(long studentId, long groupId);
 }
