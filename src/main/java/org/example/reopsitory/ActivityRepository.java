@@ -32,7 +32,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
             "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by sum(a.points) desc")
     List<ActivityRankingDTO> getGroupRanking(Long groupId);
 
-    @Query("select new org.example.dtos.ActivityDTO(a.date, a.points) from Activity a where a.student.id = ?1 and a.lesson.group.id = ?2 order by a.date")
+    @Query("select new org.example.dtos.ActivityDTO(a.date, a.points) from Activity a where a.student.id = ?1 and a.lesson.group.id = ?2 order by a.date desc")
     List<ActivityDTO> getStudentActivityHistory(long studentId, long groupId);
 
     @Query("select new org.example.dtos.ActivityPlotDTO(a.lesson.topic, sum(a.points)) from Activity a group by a.lesson having a.student.id = ?1 and a.lesson.group.id = ?2")
