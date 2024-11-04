@@ -20,7 +20,7 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
             "where a.lesson.id = ?1 group by a.student order by a.student.lastname")
     List<LessonPointsDTO> getLessonPoints(Long lessonId);
 
-    @Query("select sum(a.points) from Activity a where a.student.id = ?1 and a.lesson.id = ?2")
+    @Query("select sum(a.points) from Activity a where a.student.id = ?1 and a.lesson.id = ?2 and cast(a.date as date) = CURRENT_DATE ")
     Integer getStudentsPointsInLesson(Long studentId, Long lessonId);
 
     @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, sum(a.points)) from Activity a inner join a.student s " +
