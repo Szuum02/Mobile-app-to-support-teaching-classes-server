@@ -35,6 +35,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     @Query("select new org.example.dtos.ActivityDTO(a.date, a.points) from Activity a where a.student.id = ?1 and a.lesson.group.id = ?2 order by a.date desc")
     List<ActivityDTO> getStudentActivityHistory(long studentId, long groupId);
 
-    @Query("select new org.example.dtos.ActivityPlotDTO(a.lesson.topic, sum(a.points)) from Activity a group by a.lesson having a.student.id = ?1 and a.lesson.group.id = ?2")
+    @Query("select new org.example.dtos.ActivityPlotDTO(a.lesson.topic, sum(a.points)) from Activity a where a.student.id = ?1 and a.lesson.group.id = ?2 group by a.lesson")
     List<ActivityPlotDTO> getStudentActivities(long studentId, long groupId);
 }

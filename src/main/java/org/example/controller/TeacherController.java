@@ -39,17 +39,19 @@ public class TeacherController {
         return teacher;
     }
 
-    @GetMapping("/add")
-    public ResponseEntity<Teacher> createTeacher(@RequestParam Long id) {
+    @PostMapping("/add")
+    public TeacherDTO createTeacher(@RequestParam Long id, @RequestParam String name, @RequestParam String lastName) {
         Teacher teacher = new Teacher();
-        teacher.setName("Szymon");
-        teacher.setLastname("Fus");
-//        teacher.setId(10L);
+        teacher.setName(name);
+        teacher.setLastname(lastName);
         User user = userRepository.findById(id).get();
         user.setTeacher(teacher);
         teacher.setUser(user);
         teacherRepository.save(teacher);
-        return ResponseEntity.ok(teacher);
+
+        TeacherDTO teacherDTO = new TeacherDTO(id, name, lastName);
+        teacherDTO.setLessons(new HashMap<>());
+        return teacherDTO;
     }
 
     @GetMapping("/showGroups")

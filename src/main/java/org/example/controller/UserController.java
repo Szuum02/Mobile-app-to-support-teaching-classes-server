@@ -39,14 +39,14 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/add/test")
-    public User test(@RequestParam String mail, @RequestParam String password, @RequestParam boolean isStudent) {
+    @PostMapping("/add")
+    public Long addUser(@RequestParam String mail, @RequestParam String password, @RequestParam boolean isStudent) {
         User user = new User();
         user.setMail(mail);
         user.setPassword(password);
         user.setIsStudent(isStudent);
         userRepository.save(user);
-        return user;
+        return user.getId();
     }
 
 //    @GetMapping("/{mail}")
