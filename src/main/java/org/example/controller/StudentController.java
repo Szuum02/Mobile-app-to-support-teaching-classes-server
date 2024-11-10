@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -35,18 +37,22 @@ public class StudentController {
         return studentDTO;
     }
 
-    @GetMapping("/add")
-    public ResponseEntity<Student> createTeacher(@RequestParam Long id) {
+    @PostMapping("/add")
+    public StudentDTO createTeacher(@RequestParam Long id, @RequestParam String name,
+                                    @RequestParam String lastName, @RequestParam Integer index, @RequestParam String nick) {
         Student student = new Student();
-        student.setName("Kacper");
-        student.setLastname("Urbański");
-        student.setIndex(123456);
-        student.setNick("My_nick");
+        student.setName(name);
+        student.setLastname(lastName);
+        student.setIndex(index);
+        student.setNick(nick);
         User user = userRepository.findById(id).get();
         user.setStudent(student);
         student.setUser(user);
         studentRepository.save(student);
-        return ResponseEntity.ok(student);
+
+        StudentDTO studentDTO = new StudentDTO(id, name, lastName, index, nick);
+        studentDTO.setGroups(new ArrayList<>());
+        return studentDTO;
     }
 
     @GetMapping("/showGroups")
