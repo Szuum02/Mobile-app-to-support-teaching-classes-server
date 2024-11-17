@@ -16,4 +16,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query("SELECT g.id, g.subject FROM Student s join s.groups g WHERE s.id = ?1")
     List<Object[]> getStudentsGroup(long studentId);
+
+    Student findByIndex(int index);
+
+    Student findByNick(String nick);
 }
