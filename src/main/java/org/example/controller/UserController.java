@@ -43,8 +43,7 @@ public class UserController {
     public UserDTO findUserByMail(@RequestParam String mail, @RequestParam String password) {
         UserDTO user = userRepository.findUserByMail(mail, password);
         if (user == null) {
-            // TODO -> handle wrong email password
-            return null;
+            user = new UserDTO(-1L, false);
         }
         return user;
     }
