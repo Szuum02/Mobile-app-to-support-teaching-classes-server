@@ -42,8 +42,8 @@ public class ActivityController {
     }
 
     @GetMapping("/lessonPoints")
-    public List<LessonPointsDTO> showLessonActivity(@RequestParam("lessonId") long lessonId) {
-        return activityRepository.getLessonPoints(lessonId);
+    public List<LessonPointsDTO> showLessonActivity(@RequestParam("groupId") long groupId) {
+        return activityRepository.getLessonPoints(groupId);
     }
 
     @PostMapping("/add")

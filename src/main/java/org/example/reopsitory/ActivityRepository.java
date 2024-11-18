@@ -16,9 +16,10 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
-    @Query("select new org.example.dtos.Activity.LessonPointsDTO(a.student.id, sum(a.points)) from Activity a " +
-            "where a.lesson.id = ?1 group by a.student order by a.student.lastname")
-    List<LessonPointsDTO> getLessonPoints(Long lessonId);
+    @Query("select new org.example.dtos.Activity.LessonPointsDTO(s.id, sum(a.points), " +
+            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and cast(a2.date as date) = CURRENT_DATE)) " +
+            "from Activity a inner join a.student s where a.lesson.group.id = ?1 group by s.id order by s.lastname")
+    List<LessonPointsDTO> getLessonPoints(Long groupId);
 
     @Query("select sum(a.points) from Activity a where a.student.id = ?1 and a.lesson.id = ?2 and cast(a.date as date) = CURRENT_DATE ")
     Integer getStudentsPointsInLesson(Long studentId, Long lessonId);
