@@ -33,10 +33,10 @@ public class UserController {
         this.teacherRepository = teacherRepository;
     }
 
-    @GetMapping("/showAll")
-    public List<User> getAllUsers() {
+    @GetMapping("/get")
+    public User getAllUsers(@RequestParam Long id) {
 //        List<User> users = userRepository.findAll();
-        return userRepository.findAll();
+        return userRepository.findById(id).get();
     }
 
     @PostMapping("/login")

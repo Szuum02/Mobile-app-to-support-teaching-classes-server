@@ -3,6 +3,7 @@ package org.example.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import org.example.StringCryptoConverter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,7 @@ public class User {
 
     @NotNull
     @NotBlank
+    @Convert(converter = StringCryptoConverter.class)
     private String password;
 
     @NotNull
