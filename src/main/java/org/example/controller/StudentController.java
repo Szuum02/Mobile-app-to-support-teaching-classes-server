@@ -1,44 +1,48 @@
 package org.example.controller;
 
 import jakarta.transaction.Transactional;
+import org.example.dtos.lesson.LessonDTO;
 import org.example.dtos.student.StudentDTO;
+import org.example.model.Lesson;
 import org.example.model.Student;
 import org.example.model.Teacher;
 import org.example.model.User;
 import org.example.reopsitory.GroupRepository;
+import org.example.reopsitory.LessonRepository;
 import org.example.reopsitory.StudentRepository;
 import org.example.reopsitory.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @RestController
 @RequestMapping("/student")
 public class StudentController {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
-    private final GroupRepository groupRepository;
+    private final LessonRepository lessonRepository;
 
-    public StudentController(UserRepository userRepository, StudentRepository studentRepository, GroupRepository groupRepository) {
+    public StudentController(UserRepository userRepository, StudentRepository studentRepository, LessonRepository lessonRepository) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
-        this.groupRepository = groupRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @PostMapping("/login")
     public StudentDTO getStudentAfterLogin(@RequestParam Long studentId) {
-        Student student = studentRepository.findById(studentId).get();
         StudentDTO studentDTO = studentRepository.getStudentAfterLogin(studentId);
-        studentDTO.setGroups(groupRepository.getGroupsByStudent(student));
+        List<Lesson> lessons = lessonRepository.findLessonByStudentId(studentId);
+
+        studentDTO.setLessons(convertLessonsToMap(lessons));
         return studentDTO;
     }
 
     @PostMapping("/add")
-    public StudentDTO createTeacher(@RequestParam Long id, @RequestParam String name,
+    public StudentDTO createStudent(@RequestParam Long id, @RequestParam String name,
                                     @RequestParam String lastName, @RequestParam Integer index, @RequestParam String nick) {
         Student student = new Student();
         student.setName(name);
@@ -51,7 +55,7 @@ public class StudentController {
         studentRepository.save(student);
 
         StudentDTO studentDTO = new StudentDTO(id, name, lastName, index, nick);
-        studentDTO.setGroups(new ArrayList<>());
+        studentDTO.setLessons(new HashMap<>());
         return studentDTO;
     }
 
@@ -59,5 +63,22 @@ public class StudentController {
     @Transactional
     public List<Object[]> getGroups(@RequestParam("studentId") long studentId) {
         return studentRepository.getStudentsGroup(studentId);
+    }
+
+    private Map<LocalDate, List<LessonDTO>> convertLessonsToMap(List<Lesson> lessons) {
+        Map<LocalDate, List<LessonDTO>> lessonsMap = new HashMap<>();
+
+        for (Lesson lesson : lessons) {
+            LocalDate date = lesson.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            if (!lessonsMap.containsKey(date)) {
+                lessonsMap.put(date, new ArrayList<>());
+            }
+
+            lessonsMap.get(date).add(
+                    new LessonDTO(lesson.getId(), lesson.getDate(), lesson.getClassroom(), lesson.getTopic(), lesson.getGroup().getId())
+            );
+        }
+        return lessonsMap;
     }
 }

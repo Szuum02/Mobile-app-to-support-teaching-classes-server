@@ -1,8 +1,11 @@
 package org.example.dtos.student;
 
 import org.example.dtos.groups.GroupDTO;
+import org.example.dtos.lesson.LessonDTO;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class StudentDTO {
     private final Long id;
@@ -10,7 +13,8 @@ public class StudentDTO {
     private final String lastname;
     private final Integer index;
     private final String nick;
-    private List<GroupDTO> groups;
+
+    private Map<LocalDate, List<LessonDTO>> lessons;
 
     public StudentDTO(Long id, String name, String lastname, Integer index, String nick) {
         this.id = id;
@@ -40,11 +44,11 @@ public class StudentDTO {
         return nick;
     }
 
-    public List<GroupDTO> getGroups() {
-        return groups;
+    public Map<LocalDate, List<LessonDTO>> getLessons() {
+        return lessons;
     }
 
-    public void setGroups(List<GroupDTO> groups) {
-        this.groups = groups;
+    public void setLessons(Map<LocalDate, List<LessonDTO>> lessons) {
+        this.lessons = lessons;
     }
 }
