@@ -130,7 +130,7 @@ public class UserController {
         studentRepository.save(student);
         userRepository.save(user);
         StudentDTO studentDTO = new StudentDTO(user.getId(), name, lastName, index, nick);
-        studentDTO.setGroups(new ArrayList<>());
+        studentDTO.setLessons(new HashMap<>());
         return studentDTO;
     }
 
