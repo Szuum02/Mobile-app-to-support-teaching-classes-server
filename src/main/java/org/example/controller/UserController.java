@@ -10,12 +10,8 @@ import org.example.model.User;
 import org.example.reopsitory.StudentRepository;
 import org.example.reopsitory.TeacherRepository;
 import org.example.reopsitory.UserRepository;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,11 +37,11 @@ public class UserController {
 
     @PostMapping("/login")
     public UserDTO findUserByMail(@RequestParam String mail, @RequestParam String password) {
-        UserDTO user = userRepository.findUserByMail(mail, password);
-        if (user == null) {
-            user = new UserDTO(-1L, false);
+        User user = userRepository.findUserByMail(mail);
+        if (user != null && user.getPassword().equals(password)) {
+            return new UserDTO(user.getId(), user.getIsStudent());
         }
-        return user;
+        return new UserDTO(-1L, false);
     }
 
     @PostMapping("/add")
