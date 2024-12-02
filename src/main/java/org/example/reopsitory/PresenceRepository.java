@@ -31,4 +31,8 @@ public interface PresenceRepository extends JpaRepository<Presence, Long> {
     @Query("select new org.example.dtos.presence.PresenceDTO(p.date, p.presenceType) from Presence p " +
             "where p.student.id = ?1 and p.lesson.group.id = ?2 order by p.date desc")
     List<PresenceDTO> getStudentPresence(long studentId, long groupId);
+
+    @Query("select new org.example.dtos.presence.PresenceDTO(p.date, p.presenceType) from Presence p " +
+            "where p.student.index = ?1 and p.lesson.group.id = ?2 order by p.date desc")
+    List<PresenceDTO> getStudentPresenceByIndex(int index, long groupId);
 }
