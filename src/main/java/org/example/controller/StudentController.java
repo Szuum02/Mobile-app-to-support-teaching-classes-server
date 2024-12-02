@@ -49,12 +49,13 @@ public class StudentController {
         student.setLastname(lastName);
         student.setIndex(index);
         student.setNick(nick);
+        student.setShowInReport(true);
         User user = userRepository.findById(id).get();
         user.setStudent(student);
         student.setUser(user);
         studentRepository.save(student);
 
-        StudentDTO studentDTO = new StudentDTO(id, name, lastName, index, nick);
+        StudentDTO studentDTO = new StudentDTO(id, name, lastName, index, nick, true);
         studentDTO.setLessons(new HashMap<>());
         return studentDTO;
     }

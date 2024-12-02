@@ -34,6 +34,9 @@ public class Student {
     @Column(unique = true)
     private String nick;
 
+    @Column(name = "show_in_report")
+    private boolean showInReport;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "student_id")
@@ -94,6 +97,14 @@ public class Student {
 
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    public boolean isShowInReport() {
+        return showInReport;
+    }
+
+    public void setShowInReport(boolean showInReport) {
+        this.showInReport = showInReport;
     }
 
     public Set<Group> getGroups() {

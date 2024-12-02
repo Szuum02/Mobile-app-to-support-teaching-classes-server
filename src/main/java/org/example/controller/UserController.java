@@ -125,11 +125,12 @@ public class UserController {
         student.setLastname(lastName);
         student.setIndex(index);
         student.setNick(nick);
+        student.setShowInReport(true);
         user.setStudent(student);
         student.setUser(user);
         studentRepository.save(student);
         userRepository.save(user);
-        StudentDTO studentDTO = new StudentDTO(user.getId(), name, lastName, index, nick);
+        StudentDTO studentDTO = new StudentDTO(user.getId(), name, lastName, index, nick, true);
         studentDTO.setLessons(new HashMap<>());
         return studentDTO;
     }
