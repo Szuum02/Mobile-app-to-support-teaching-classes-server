@@ -10,7 +10,7 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     public Student findById(long id);
 
-    @Query("select new org.example.dtos.student.StudentDTO(s.id, s.name, s.lastname, s.index, s.nick) from Student s " +
+    @Query("select new org.example.dtos.student.StudentDTO(s.id, s.name, s.lastname, s.index, s.nick, s.showInRanking) from Student s " +
             "where s.id = ?1")
     StudentDTO getStudentAfterLogin(long studentId);
 
