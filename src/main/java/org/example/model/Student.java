@@ -34,8 +34,9 @@ public class Student {
     @Column(unique = true)
     private String nick;
 
-    @Column(name = "show_in_report")
-    private boolean showInReport;
+    @NotNull
+    @Column(name = "show_in_ranking")
+    private boolean showInRanking;
 
     @OneToOne
     @MapsId
@@ -99,12 +100,12 @@ public class Student {
         this.nick = nick;
     }
 
-    public boolean isShowInReport() {
-        return showInReport;
+    public boolean isShowInRanking() {
+        return showInRanking;
     }
 
-    public void setShowInReport(boolean showInReport) {
-        this.showInReport = showInReport;
+    public void setShowInRanking(boolean showInReport) {
+        this.showInRanking = showInReport;
     }
 
     public Set<Group> getGroups() {

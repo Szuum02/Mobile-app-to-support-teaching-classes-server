@@ -12,11 +12,11 @@ public class StudentDTO {
     private final String lastname;
     private final Integer index;
     private final String nick;
-    private final boolean showInRanking;
+    private final Boolean showInRanking;
 
     private Map<LocalDate, List<LessonDTO>> lessons;
 
-    public StudentDTO(Long id, String name, String lastname, Integer index, String nick, boolean showInRanking) {
+    public StudentDTO(Long id, String name, String lastname, Integer index, String nick, Boolean showInRanking) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -45,7 +45,7 @@ public class StudentDTO {
         return nick;
     }
 
-    public boolean isShowInRanking() {
+    public Boolean isShowInRanking() {
         return showInRanking;
     }
 

@@ -10,13 +10,8 @@ import org.example.model.User;
 import org.example.reopsitory.StudentRepository;
 import org.example.reopsitory.TeacherRepository;
 import org.example.reopsitory.UserRepository;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -125,7 +120,7 @@ public class UserController {
         student.setLastname(lastName);
         student.setIndex(index);
         student.setNick(nick);
-        student.setShowInReport(true);
+        student.setShowInRanking(true);
         user.setStudent(student);
         student.setUser(user);
         studentRepository.save(student);

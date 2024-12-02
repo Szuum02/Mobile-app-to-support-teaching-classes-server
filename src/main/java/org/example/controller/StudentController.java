@@ -2,17 +2,14 @@ package org.example.controller;
 
 import jakarta.transaction.Transactional;
 import org.example.dtos.lesson.LessonDTO;
+import org.example.dtos.student.ShowInRankingDTO;
 import org.example.dtos.student.StudentDTO;
 import org.example.model.Lesson;
 import org.example.model.Student;
-import org.example.model.Teacher;
 import org.example.model.User;
-import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.LessonRepository;
 import org.example.reopsitory.StudentRepository;
 import org.example.reopsitory.UserRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -49,7 +46,7 @@ public class StudentController {
         student.setLastname(lastName);
         student.setIndex(index);
         student.setNick(nick);
-        student.setShowInReport(true);
+        student.setShowInRanking(true);
         User user = userRepository.findById(id).get();
         user.setStudent(student);
         student.setUser(user);
@@ -64,6 +61,15 @@ public class StudentController {
     @Transactional
     public List<Object[]> getGroups(@RequestParam("studentId") long studentId) {
         return studentRepository.getStudentsGroup(studentId);
+    }
+
+    @PostMapping("/changeShowInRanking")
+    public ShowInRankingDTO showInRanking(@RequestParam("studentId") long studentId,
+                                          @RequestParam("showInRanking") boolean showInRanking) {
+        Student student = studentRepository.findById(studentId);
+        student.setShowInRanking(showInRanking);
+        studentRepository.save(student);
+        return new ShowInRankingDTO(student.getId(), student.isShowInRanking());
     }
 
     private Map<LocalDate, List<LessonDTO>> convertLessonsToMap(List<Lesson> lessons) {
