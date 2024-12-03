@@ -21,11 +21,11 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     @Query("select sum(a.points) from Activity a where a.student.id = ?1 and a.lesson.id = ?2 and cast(a.date as date) = CURRENT_DATE ")
     Integer getStudentsPointsInLesson(Long studentId, Long lessonId);
 
-    @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, s.showInRanking, sum(a.points)) from Activity a inner join a.student s " +
+    @Query("select new org.example.dtos.ActivityRankingDTO(s.id, s.nick, s.showInRanking, sum(a.points)) from Activity a inner join a.student s " +
             "where a.lesson.group.subject = ?1 group by s.id order by sum(a.points) desc")
     List<ActivityRankingDTO> getRanking(String subject);
 
-    @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, s.showInRanking, sum(a.points)," +
+    @Query("select new org.example.dtos.ActivityRankingDTO(s.id, s.nick, s.showInRanking, sum(a.points)," +
             "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and cast(a2.date as date) = CURRENT_DATE)) from Activity a " +
             "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by sum(a.points) desc")
     List<ActivityRankingDTO> getGroupRanking(Long groupId);
