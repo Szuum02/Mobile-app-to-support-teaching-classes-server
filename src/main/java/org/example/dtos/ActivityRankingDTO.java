@@ -4,10 +4,10 @@ public class ActivityRankingDTO {
     private final Long id;
     private final String nick;
     private final Boolean showInRanking;
-    private final long totalPoints;
+    private final Long totalPoints;
     private Long todayPoints;
 
-    public ActivityRankingDTO(Long id, String nick, Boolean showInRanking, long totalPoints, Long todayPoints) {
+    public ActivityRankingDTO(Long id, String nick, Boolean showInRanking, Long totalPoints, Long todayPoints) {
         this.id = 1L;
         this.nick = nick;
         this.showInRanking = showInRanking;
@@ -15,7 +15,7 @@ public class ActivityRankingDTO {
         this.todayPoints = todayPoints;
     }
 
-    public ActivityRankingDTO(Long id, String nick, Boolean showInRanking, long totalPoints) {
+    public ActivityRankingDTO(Long id, String nick, Boolean showInRanking, Long totalPoints) {
         this.id = id;
         this.nick = nick;
         this.showInRanking = showInRanking;
@@ -34,7 +34,7 @@ public class ActivityRankingDTO {
         return showInRanking;
     }
 
-    public long getTotalPoints() {
+    public Long getTotalPoints() {
         return totalPoints;
     }
 

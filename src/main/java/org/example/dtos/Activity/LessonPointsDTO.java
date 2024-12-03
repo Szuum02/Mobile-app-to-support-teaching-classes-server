@@ -2,10 +2,10 @@ package org.example.dtos.Activity;
 
 public class LessonPointsDTO {
     private final Long studentId;
-    private final long totalPoints;
-    private final long todayPoints;
+    private final Long totalPoints;
+    private final Long todayPoints;
 
-    public LessonPointsDTO(Long studentId, long totalPoints, long todayPoints) {
+    public LessonPointsDTO(Long studentId, Long totalPoints, Long todayPoints) {
         this.studentId = studentId;
         this.totalPoints = totalPoints;
         this.todayPoints = todayPoints;
@@ -15,11 +15,11 @@ public class LessonPointsDTO {
         return studentId;
     }
 
-    public long getTodayPoints() {
+    public Long getTodayPoints() {
         return todayPoints;
     }
 
-    public long getTotalPoints() {
+    public Long getTotalPoints() {
         return totalPoints;
     }
 }
