@@ -28,7 +28,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             " from Group g where g.id = ?1")
     public ReportDTO generateReport(long groupId);
 
-    @Query("select new org.example.dtos.groups.StudentReportDTO(s.name, s.lastname, s.index)" +
-            " from Group g join g.students s where g.id = ?1")
+    @Query("select new org.example.dtos.groups.StudentReportDTO(s.name, s.lastname, s.index, sum(a.points))" +
+            " from Group g join g.students s join s.activities a where g.id = ?1 and a.lesson.group.id = ?1 group by s")
     public List<StudentReportDTO> getStudentsReport(long groupId);
 }
