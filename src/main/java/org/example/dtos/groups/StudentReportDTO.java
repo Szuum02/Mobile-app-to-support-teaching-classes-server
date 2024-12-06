@@ -10,12 +10,13 @@ public class StudentReportDTO {
     private final String lastname;
     private final Integer index;
     private List<PresenceDTO> presences;
-    private List<ActivityDTO> activities;
+    private final Long totalPoints;
 
-    public StudentReportDTO(String name, String lastname, Integer index) {
+    public StudentReportDTO(String name, String lastname, Integer index, Long totalPoints) {
         this.name = name;
         this.lastname = lastname;
         this.index = index;
+        this.totalPoints = totalPoints;
     }
 
     public String getName() {
@@ -38,11 +39,7 @@ public class StudentReportDTO {
         this.presences = presences;
     }
 
-    public List<ActivityDTO> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(List<ActivityDTO> activities) {
-        this.activities = activities;
+    public Long getTotalPoints() {
+        return totalPoints;
     }
 }

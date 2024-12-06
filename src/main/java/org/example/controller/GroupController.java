@@ -40,7 +40,6 @@ public class GroupController {
         ReportDTO report = groupRepository.generateReport(groupId);
         List<StudentReportDTO> studentReports = groupRepository.getStudentsReport(groupId);
         for (StudentReportDTO studentReport : studentReports) {
-            studentReport.setActivities(activityRepository.getStudentActivityHistoryByIndex(studentReport.getIndex(), groupId));
             studentReport.setPresences(presenceRepository.getStudentPresenceByIndex(studentReport.getIndex(), groupId));
         }
         report.setStudentReports(studentReports);
