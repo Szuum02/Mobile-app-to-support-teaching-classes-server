@@ -57,12 +57,6 @@ public class StudentController {
         return studentDTO;
     }
 
-    @GetMapping("/showGroups")
-    @Transactional
-    public List<Object[]> getGroups(@RequestParam("studentId") long studentId) {
-        return studentRepository.getStudentsGroup(studentId);
-    }
-
     @PostMapping("/changeShowInRanking")
     public ShowInRankingDTO showInRanking(@RequestParam("studentId") long studentId,
                                           @RequestParam("showInRanking") boolean showInRanking) {
