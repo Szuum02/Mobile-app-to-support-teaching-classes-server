@@ -55,10 +55,6 @@ public class TeacherController {
     }
 
     @GetMapping("/showGroups")
-    public List<Object[]> showGroups(@RequestParam long teacherId) {
-//        List<Object[]> groups = teacherRepository.getTeachersGroups(teacherId);
-        return teacherRepository.getTeachersGroups(teacherId);
-    }
 
     private Map<LocalDate, List<LessonDTO>> convertLessonsToMap(List<Lesson> lessons) {
         Map<LocalDate, List<LessonDTO>> lessonsMap = new HashMap<>();
