@@ -28,12 +28,6 @@ public class UserController {
         this.teacherRepository = teacherRepository;
     }
 
-    @GetMapping("/showAll")
-    public List<User> getAllUsers() {
-//        List<User> users = userRepository.findAll();
-        return userRepository.findAll();
-    }
-
     @PostMapping("/login")
     public UserDTO findUserByMail(@RequestParam String mail, @RequestParam String password) {
         UserDTO user = userRepository.findUserByMail(mail, password);
@@ -51,24 +45,6 @@ public class UserController {
         user.setIsStudent(isStudent);
         userRepository.save(user);
         return user.getId();
-    }
-
-//    @GetMapping("/{mail}")
-//    public ResponseEntity<Optional<User>> test(@PathVariable("mail") String mail) {
-//        Optional<User> user = userRepository.findById(mail);
-//        return ResponseEntity.ok(user);
-//    }
-
-    @GetMapping("/teacher/showAll")
-    public List<User> findTeachers() {
-//        List<User> users = userRepository.findAllTeacher();
-        return userRepository.findAllTeacher();
-    }
-
-    @GetMapping("/students/showAll")
-    public List<User> findStudents() {
-//        List<User> users = userRepository.findAllStudents();
-        return userRepository.findAllStudents();
     }
 
     @GetMapping("/checkUniqueMail")
