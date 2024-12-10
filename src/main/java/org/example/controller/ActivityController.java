@@ -50,7 +50,6 @@ public class ActivityController {
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     @ExceptionHandler(InternalError.class)
-//    @Modifying
     public int addActivity(@RequestParam("lessonId") long lessonId, @RequestParam("studentId") long studentId,
                            @RequestParam("date") String dateString, @RequestParam("points") int points) {
         Lesson lesson = lessonRepository.findById(lessonId);
@@ -95,10 +94,10 @@ public class ActivityController {
         Student student = studentRepository.findById(studentId);
         return new StudentHistoryDTO(student.getName(), student.getLastname(), student.getIndex(), activities);
     }
-
-    @GetMapping("/plot")
-    @Transactional
-    public List<ActivityPlotDTO> getPlot(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
-        return activityRepository.getStudentActivities(studentId, groupId);
-    }
+//
+//    @GetMapping("/plot")
+//    @Transactional
+//    public List<ActivityPlotDTO> getPlot(@RequestParam("studentId") long studentId, @RequestParam("groupId") long groupId) {
+//        return activityRepository.getStudentActivities(studentId, groupId);
+//    }
 }
