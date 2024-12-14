@@ -16,6 +16,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface PresenceRepository extends JpaRepository<Presence, Long> {
+    @Query("select p from Presence p where p.lesson.id = ?1 and p.student.id = ?2")
+    Presence findPresenceByLessonIdAndStudentId(Long lessonId, Long studentId);
+
     @Query("select new org.example.dtos.presence.LessonPresenceDTO(p.student.id, p.presenceType) from Presence p " +
             "where p.lesson.id = ?1 order by p.student.lastname")
     List<LessonPresenceDTO> getLessonPresence(long lessonId);
