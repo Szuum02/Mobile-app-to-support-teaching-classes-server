@@ -16,23 +16,11 @@ import java.util.List;
 @RequestMapping("/group")
 public class GroupController {
     private GroupRepository groupRepository;
-    private ActivityRepository activityRepository;
     private PresenceRepository presenceRepository;
 
-    public GroupController(GroupRepository groupRepository, ActivityRepository activityRepository, PresenceRepository presenceRepository) {
+    public GroupController(GroupRepository groupRepository, PresenceRepository presenceRepository) {
         this.groupRepository = groupRepository;
-        this.activityRepository = activityRepository;
         this.presenceRepository = presenceRepository;
-    }
-
-    @GetMapping("/showStudents")
-    public List<Object[]> showStudents(@RequestParam("groupStudentId") long groupId) {
-        return groupRepository.getStudentsByGroup(groupId);
-    }
-
-    @GetMapping("/lessons/showAll")
-    public List<Object[]> showLessons(@RequestParam("groupId") long groupId) {
-        return groupRepository.getLessons(groupId);
     }
 
     @GetMapping("/generateReport")

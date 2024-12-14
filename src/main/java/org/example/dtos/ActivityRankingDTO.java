@@ -8,7 +8,7 @@ public class ActivityRankingDTO {
     private Long todayPoints;
 
     public ActivityRankingDTO(Long id, String nick, Boolean showInRanking, Long totalPoints, Long todayPoints) {
-        this.id = 1L;
+        this.id = id;
         this.nick = nick;
         this.showInRanking = showInRanking;
         this.totalPoints = totalPoints;

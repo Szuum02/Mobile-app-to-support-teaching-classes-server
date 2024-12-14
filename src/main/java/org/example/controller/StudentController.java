@@ -19,12 +19,10 @@ import java.util.*;
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private final UserRepository userRepository;
     private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
 
-    public StudentController(UserRepository userRepository, StudentRepository studentRepository, LessonRepository lessonRepository) {
-        this.userRepository = userRepository;
+    public StudentController(StudentRepository studentRepository, LessonRepository lessonRepository) {
         this.studentRepository = studentRepository;
         this.lessonRepository = lessonRepository;
     }
@@ -38,30 +36,24 @@ public class StudentController {
         return studentDTO;
     }
 
-    @PostMapping("/add")
-    public StudentDTO createStudent(@RequestParam Long id, @RequestParam String name,
-                                    @RequestParam String lastName, @RequestParam Integer index, @RequestParam String nick) {
-        Student student = new Student();
-        student.setName(name);
-        student.setLastname(lastName);
-        student.setIndex(index);
-        student.setNick(nick);
-        student.setShowInRanking(true);
-        User user = userRepository.findById(id).get();
-        user.setStudent(student);
-        student.setUser(user);
-        studentRepository.save(student);
-
-        StudentDTO studentDTO = new StudentDTO(id, name, lastName, index, nick, true);
-        studentDTO.setLessons(new HashMap<>());
-        return studentDTO;
-    }
-
-    @GetMapping("/showGroups")
-    @Transactional
-    public List<Object[]> getGroups(@RequestParam("studentId") long studentId) {
-        return studentRepository.getStudentsGroup(studentId);
-    }
+//    @PostMapping("/add")
+//    public StudentDTO createStudent(@RequestParam Long id, @RequestParam String name,
+//                                    @RequestParam String lastName, @RequestParam Integer index, @RequestParam String nick) {
+//        Student student = new Student();
+//        student.setName(name);
+//        student.setLastname(lastName);
+//        student.setIndex(index);
+//        student.setNick(nick);
+//        student.setShowInRanking(true);
+//        User user = userRepository.findById(id).get();
+//        user.setStudent(student);
+//        student.setUser(user);
+//        studentRepository.save(student);
+//
+//        StudentDTO studentDTO = new StudentDTO(id, name, lastName, index, nick, true);
+//        studentDTO.setLessons(new HashMap<>());
+//        return studentDTO;
+//    }
 
     @PostMapping("/changeShowInRanking")
     public ShowInRankingDTO showInRanking(@RequestParam("studentId") long studentId,

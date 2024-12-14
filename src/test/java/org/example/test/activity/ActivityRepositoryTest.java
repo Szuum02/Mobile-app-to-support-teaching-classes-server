@@ -2,6 +2,7 @@ package org.example.test.activity;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.example.dtos.Activity.LessonPointsDTO;
 import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityPlotDTO;
 import org.example.dtos.ActivityRankingDTO;
@@ -30,13 +31,28 @@ public class ActivityRepositoryTest {
     ActivityRepository activityRepository;
 
     @Test
-    @DatabaseSetup("classpath:activity/studentHistory.xml")
+    @DatabaseSetup("classpath:activity/groupPoints.xml")
+    void givenGroup_whenGetTodayPoints_thenReturnPoints() {
+        List<LessonPointsDTO> lessonPointsDTOS = activityRepository.getLessonPoints(1L);
+        assertThat(lessonPointsDTOS.size()).isEqualTo(3);
+        assertThat(lessonPointsDTOS.get(0).getTodayPoints()).isEqualTo(6);
+        assertThat(lessonPointsDTOS.get(0).getTotalPoints()).isEqualTo(6);
+
+        assertThat(lessonPointsDTOS.get(1).getTodayPoints()).isEqualTo(3);
+        assertThat(lessonPointsDTOS.get(1).getTotalPoints()).isEqualTo(1);
+
+        assertThat(lessonPointsDTOS.get(2).getTodayPoints()).isNull();
+        assertThat(lessonPointsDTOS.get(2).getTotalPoints()).isEqualTo(2);
+    }
+
+    @Test
+    @DatabaseSetup("classpath:activity/todayActivities.xml")
     void givenStudentAndLesson_whenShowTodayPoints_thenReturnPoints() {
         int points = activityRepository.getStudentsPointsInLesson(2L, 1L);
-        assertThat(points).isEqualTo(2);
-
-        points = activityRepository.getStudentsPointsInLesson(2L, 2L);
         assertThat(points).isEqualTo(3);
+
+        points = activityRepository.getStudentsPointsInLesson(3L, 1L);
+        assertThat(points).isEqualTo(1);
     }
 
     @Test
@@ -66,8 +82,8 @@ public class ActivityRepositoryTest {
     void givenStudentAndGroup_whenShowPoints_thenReturnActivityHistory() {
         List<ActivityDTO> activityHistory = activityRepository.getStudentActivityHistory(2L, 1L);
         assertThat(activityHistory.size()).isEqualTo(4);
-        assertThat(activityHistory.get(0).getDate()).isEqualTo(LocalDateTime.of(2024, 6, 6, 9, 10, 0));
-        assertThat(activityHistory.get(1).getPoints()).isEqualTo(4);
+        assertThat(activityHistory.get(0).getDate()).isEqualTo(LocalDateTime.of(2024, 6, 9, 9, 20, 0));
+        assertThat(activityHistory.get(1).getPoints()).isEqualTo(-1);
     }
 
     @Test

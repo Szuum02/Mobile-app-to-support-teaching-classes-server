@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!--    teacher-->
+    <users2 user_id="1" mail="teacher@example.com" password="p1" is_student="false"/>
+    <teachers teacher_id="1" name="Teacher" lastname="1"/>
+    <!--    student-->
+    <users2 user_id="2" mail="student2@example.com" password="p2" is_student="true"/>
+    <students student_id="2" index_number="2" lastname="last2" name="name2" nick="s2" show_in_ranking="true"/>
+    <users2 user_id="3" mail="student3@example.com" password="p3" is_student="true"/>
+    <students student_id="3" index_number="3" lastname="last3" name="name3" nick="s3" show_in_ranking="true"/>
+    <users2 user_id="4" mail="student4@example.com" password="p4" is_student="true"/>
+    <students student_id="4" index_number="4" lastname="last4" name="name4" nick="s4" show_in_ranking="true"/>
+    <users2 user_id="5" mail="student5@example.com" password="p5" is_student="true"/>
+    <students student_id="5" index_number="5" lastname="last5" name="name5" nick="s5" show_in_ranking="true"/>
+    <!--    groups-->
+    <groups group_id="1" subject="subject1" teacher_id="1"/>
+    <!--    lessons-->
+    <lessons lesson_id="1" classroom="1" date="2024-06-06 09:00:00" topic="test1" group_id="1"/>
+    <lessons lesson_id="2" classroom="1" date="2024-06-07 09:00:00" topic="test2" group_id="1"/>
+    <!--    presences-->
+    <presences presence_id="1" date="2024-06-06 09:10:00" presence_type="O" lesson_id="1" student_id="2"/>
+    <presences presence_id="2" date="2024-06-06 09:11:00" presence_type="U" lesson_id="1" student_id="3"/>
+    <presences presence_id="3" date="2024-06-06 09:12:00" presence_type="S" lesson_id="1" student_id="4"/>
+    <presences presence_id="4" date="2024-06-06 09:13:00" presence_type="N" lesson_id="1" student_id="5"/>
+    <!--    groups_students-->
+    <groups_students groups_group_id="1" students_student_id="2"/>
+    <groups_students groups_group_id="1" students_student_id="3"/>
+    <groups_students groups_group_id="1" students_student_id="4"/>
+    <groups_students groups_group_id="1" students_student_id="5"/>
+</dataset>

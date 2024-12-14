@@ -20,12 +20,10 @@ import java.util.*;
 public class TeacherController {
 
     private final TeacherRepository teacherRepository;
-    private final UserRepository userRepository;
     private final LessonRepository lessonRepository;
 
-    public TeacherController(TeacherRepository teacherRepository, UserRepository userRepository, LessonRepository lessonRepository) {
+    public TeacherController(TeacherRepository teacherRepository, LessonRepository lessonRepository) {
         this.teacherRepository = teacherRepository;
-        this.userRepository = userRepository;
         this.lessonRepository = lessonRepository;
     }
 
@@ -39,26 +37,20 @@ public class TeacherController {
         return teacher;
     }
 
-    @PostMapping("/add")
-    public TeacherDTO createTeacher(@RequestParam Long id, @RequestParam String name, @RequestParam String lastName) {
-        Teacher teacher = new Teacher();
-        teacher.setName(name);
-        teacher.setLastname(lastName);
-        User user = userRepository.findById(id).get();
-        user.setTeacher(teacher);
-        teacher.setUser(user);
-        teacherRepository.save(teacher);
-
-        TeacherDTO teacherDTO = new TeacherDTO(id, name, lastName);
-        teacherDTO.setLessons(new HashMap<>());
-        return teacherDTO;
-    }
-
-    @GetMapping("/showGroups")
-    public List<Object[]> showGroups(@RequestParam long teacherId) {
-//        List<Object[]> groups = teacherRepository.getTeachersGroups(teacherId);
-        return teacherRepository.getTeachersGroups(teacherId);
-    }
+//    @PostMapping("/add")
+//    public TeacherDTO createTeacher(@RequestParam Long id, @RequestParam String name, @RequestParam String lastName) {
+//        Teacher teacher = new Teacher();
+//        teacher.setName(name);
+//        teacher.setLastname(lastName);
+//        User user = userRepository.findById(id).get();
+//        user.setTeacher(teacher);
+//        teacher.setUser(user);
+//        teacherRepository.save(teacher);
+//
+//        TeacherDTO teacherDTO = new TeacherDTO(id, name, lastName);
+//        teacherDTO.setLessons(new HashMap<>());
+//        return teacherDTO;
+//    }
 
     private Map<LocalDate, List<LessonDTO>> convertLessonsToMap(List<Lesson> lessons) {
         Map<LocalDate, List<LessonDTO>> lessonsMap = new HashMap<>();
