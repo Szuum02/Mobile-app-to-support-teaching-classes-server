@@ -13,7 +13,6 @@ import org.example.reopsitory.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -30,7 +29,7 @@ public class UserController {
 
     @PostMapping("/login")
     public UserDTO findUserByMail(@RequestParam String mail, @RequestParam String password) {
-        UserDTO user = userRepository.findUserByMail(mail, password);
+        UserDTO user = userRepository.findUserByMailAndPassword(mail, password);
         if (user == null) {
             user = new UserDTO(-1L, false);
         }
