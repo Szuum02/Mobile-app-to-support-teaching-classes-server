@@ -3,6 +3,7 @@ package org.example.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,21 @@ public class Group {
 
     @NotNull
     @NotBlank
+    @Column(name = "subject_code")
+    private String subjectCode;
+
+    @NotNull
+    @NotBlank
     private String subject;
+
+    @NotNull
+    @Column(name = "group_number")
+    private Integer groupNumber;
+
+    @NotNull
+//    @UniqueElements
+    @Column(name = "group_code")
+    private String groupCode;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
@@ -70,5 +85,29 @@ public class Group {
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    public String getSubjectCode() {
+        return subjectCode;
+    }
+
+    public void setSubjectCode(String subjectCode) {
+        this.subjectCode = subjectCode;
+    }
+
+    public Integer getGroupNumber() {
+        return groupNumber;
+    }
+
+    public void setGroupNumber(Integer groupNumber) {
+        this.groupNumber = groupNumber;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
     }
 }
