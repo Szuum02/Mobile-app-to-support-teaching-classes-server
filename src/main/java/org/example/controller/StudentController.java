@@ -1,15 +1,14 @@
 package org.example.controller;
 
-import jakarta.transaction.Transactional;
 import org.example.dtos.lesson.LessonDTO;
 import org.example.dtos.student.ShowInRankingDTO;
 import org.example.dtos.student.StudentDTO;
+import org.example.model.Group;
 import org.example.model.Lesson;
 import org.example.model.Student;
-import org.example.model.User;
+import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.LessonRepository;
 import org.example.reopsitory.StudentRepository;
-import org.example.reopsitory.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,10 +20,12 @@ import java.util.*;
 public class StudentController {
     private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
+    private final GroupRepository groupRepository;
 
-    public StudentController(StudentRepository studentRepository, LessonRepository lessonRepository) {
+    public StudentController(StudentRepository studentRepository, LessonRepository lessonRepository, GroupRepository groupRepository) {
         this.studentRepository = studentRepository;
         this.lessonRepository = lessonRepository;
+        this.groupRepository = groupRepository;
     }
 
     @PostMapping("/login")
@@ -62,6 +63,20 @@ public class StudentController {
         student.setShowInRanking(showInRanking);
         studentRepository.save(student);
         return new ShowInRankingDTO(student.getId(), student.isShowInRanking());
+    }
+
+    @PostMapping("addGroup")
+    public List<LessonDTO> addStudentToGroup(@RequestParam("studentId") Long studentId, @RequestParam("groupCode") String groupCode) {
+        Group group = groupRepository.findGroupByGroupCode(groupCode);
+        if (group == null) {
+            return new ArrayList<>();
+        }
+        Student student = studentRepository.findById(studentId).get();
+        group.getStudents().add(student);
+        student.getGroups().add(group);
+        studentRepository.save(student);
+        groupRepository.save(group);
+        return lessonRepository.findLessonByGroupId(group.getId());
     }
 
     private Map<LocalDate, List<LessonDTO>> convertLessonsToMap(List<Lesson> lessons) {

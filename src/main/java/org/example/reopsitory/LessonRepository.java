@@ -1,5 +1,6 @@
 package org.example.reopsitory;
 
+import org.example.dtos.lesson.LessonDTO;
 import org.example.model.Group;
 import org.example.model.Lesson;
 import org.example.model.Student;
@@ -21,4 +22,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     @Query("select s.id, s.name, s.lastname, s.index from Lesson l inner join l.group g inner join g.students s " +
             "where l.id = ?1 order by s.lastname")
     List<Object[]> findStudentsByLesson(long lessonId);
+
+    @Query("select new org.example.dtos.lesson.LessonDTO(l.id, l.date, l.classroom, l.topic, l.group.id, l.group.groupCode) from Lesson l where l.group.id = ?1")
+    List<LessonDTO> findLessonByGroupId(Long groupId);
 }
