@@ -117,7 +117,7 @@ public class TeacherController {
             }
 
             lessonsMap.get(date).add(
-                    new LessonDTO(lesson.getId(), lesson.getDate(), lesson.getClassroom(), lesson.getTopic(), lesson.getGroup().getId())
+                    new LessonDTO(lesson.getId(), lesson.getDate(), lesson.getClassroom(), lesson.getTopic(), lesson.getGroup().getId(), lesson.getGroup().getGroupCode())
             );
         }
         return lessonsMap;
