@@ -117,13 +117,13 @@ public class StudentControllerTest {
 
     private Map<LocalDate, List<LessonDTO>> setupLessons(List<Date> dates) {
         List<LessonDTO> lessonDTOS1 = List.of(
-                new LessonDTO(1L, dates.get(0), "1a", "topic1", 1L),
-                new LessonDTO(2L, dates.get(1), "2a", "topic2", 2L)
+                new LessonDTO(1L, dates.get(0), "1a", "topic1", 1L, "code1"),
+                new LessonDTO(2L, dates.get(1), "2a", "topic2", 2L, "code2")
         );
 
         List<LessonDTO> lessonDTOS2 = List.of(
-                new LessonDTO(3L, dates.get(2), "3a", "topic3", 3L),
-                new LessonDTO(4L, dates.get(3), "4a", "topic4", 4L)
+                new LessonDTO(3L, dates.get(2), "3a", "topic3", 3L, "code3"),
+                new LessonDTO(4L, dates.get(3), "4a", "topic4", 4L, "code4")
         );
 
         Map<LocalDate, List<LessonDTO>> map = new HashMap<>();

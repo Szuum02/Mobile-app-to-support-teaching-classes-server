@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
     public Group findById(long id);
+    public Group findGroupByGroupCode(String groupCode);
 
     @Query("select new org.example.dtos.groups.ReportDTO(g.id, g.subject)" +
             " from Group g where g.id = ?1")
