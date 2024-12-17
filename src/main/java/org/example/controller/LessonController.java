@@ -17,4 +17,9 @@ public class LessonController {
     public LessonController(LessonRepository lessonRepository) {
         this.lessonRepository = lessonRepository;
     }
+
+    @GetMapping("/showStudents")
+    public List<Object[]> getStudents(@RequestParam("lessonId") long lessonId) {
+        return lessonRepository.findStudentsByLesson(lessonId);
+    }
 }
