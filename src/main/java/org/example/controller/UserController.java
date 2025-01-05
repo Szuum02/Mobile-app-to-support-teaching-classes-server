@@ -12,6 +12,7 @@ import org.example.reopsitory.TeacherRepository;
 import org.example.reopsitory.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
@@ -27,13 +28,19 @@ public class UserController {
         this.teacherRepository = teacherRepository;
     }
 
+    @GetMapping("/get")
+    public User getAllUsers(@RequestParam Long id) {
+//        List<User> users = userRepository.findAll();
+        return userRepository.findById(id).get();
+    }
+
     @PostMapping("/login")
     public UserDTO findUserByMail(@RequestParam String mail, @RequestParam String password) {
-        UserDTO user = userRepository.findUserByMailAndPassword(mail, password);
-        if (user == null) {
-            user = new UserDTO(-1L, false);
+        User user = userRepository.findUserByMail(mail);
+        if (user != null && user.getPassword().equals(password)) {
+            return new UserDTO(user.getId(), user.getIsStudent());
         }
-        return user;
+        return new UserDTO(-1L, false);
     }
 
     @PostMapping("/add")
