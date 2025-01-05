@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <!--    teacher-->
-    <users2 user_id="1" mail="teacher@example.com" password="p1" is_student="false"/>
+    <app_users user_id="1" mail="teacher@example.com" password="3DjeOdnKYVmBWAtiFFq0HQ==" is_student="false"/>
     <teachers teacher_id="1" name="Teacher" lastname="1"/>
     <!--    groups-->
     <groups group_id="1" subject="subject1" teacher_id="1"/>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <!--    teacher-->
-    <users2 user_id="1" mail="teacher@example.com" password="p1" is_student="false"/>
+    <app_users user_id="1" mail="teacher@example.com" password="3DjeOdnKYVmBWAtiFFq0HQ==" is_student="false"/>
     <teachers teacher_id="1" name="Teacher" lastname="1"/>
     <!--    students-->
-    <users2 user_id="2" mail="student2@example.com" password="p2" is_student="true"/>
+    <app_users user_id="2" mail="student2@example.com" password="4rbDbMJBRpgw8an28K8svw==" is_student="true"/>
     <students student_id="2" index_number="2" lastname="last2" name="name2" nick="s2"/>
-    <users2 user_id="3" mail="student3@example.com" password="p3" is_student="true"/>
+    <app_users user_id="3" mail="student3@example.com" password="A7AbK7QzCIyMkZzCSAi/og==" is_student="true"/>
     <students student_id="3" index_number="3" lastname="last3" name="name3" nick="s3"/>
-    <users2 user_id="4" mail="student4@example.com" password="p4" is_student="true"/>
+    <app_users user_id="4" mail="student4@example.com" password="HqqGm7Dn0MZc6vtVIMB0ug==" is_student="true"/>
     <students student_id="4" index_number="4" lastname="last4" name="name4" nick="s4"/>
     <!--    groups-->
     <groups group_id="1" subject="subject1" teacher_id="1"/>

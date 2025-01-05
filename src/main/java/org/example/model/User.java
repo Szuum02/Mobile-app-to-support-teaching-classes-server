@@ -1,7 +1,5 @@
 package org.example.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import org.example.StringCryptoConverter;
 
@@ -10,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "users")
+@Table(name = "app_users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

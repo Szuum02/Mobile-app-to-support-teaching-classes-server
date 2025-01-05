@@ -9,6 +9,7 @@ import org.example.dtos.student.StudentDTO;
 import org.example.model.Group;
 import org.example.model.Lesson;
 import org.example.model.Student;
+import org.example.reopsitory.GroupRepository;
 import org.example.reopsitory.LessonRepository;
 import org.example.reopsitory.StudentRepository;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,8 @@ public class StudentControllerTest {
     private StudentRepository studentRepository;
     @MockBean
     private LessonRepository lessonRepository;
+    @MockBean
+    private GroupRepository groupRepository;
 
     @Test
     void givenStudentId_whenStudentLogin_thenReturnStudentDTO() throws Exception {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
     <!--    student-->
-    <users2 user_id="1" mail="student@example.com" password="p1" is_student="true"/>
+    <app_users user_id="1" mail="student@example.com" password="3DjeOdnKYVmBWAtiFFq0HQ==" is_student="true"/>
     <students student_id="1" index_number="1" lastname="last1" name="name1" nick="s1" show_in_ranking="true"/>
 </dataset>

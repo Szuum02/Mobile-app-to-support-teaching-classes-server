@@ -47,8 +47,12 @@ public class UserControllerTest {
 
     @Test
     void givenMailAndPassword_whenUserLogin_thenReturnUserDTO() throws Exception {
-        UserDTO expectedResponse = new UserDTO(1L, true);
-        when(userRepository.findUserByMailAndPassword("mail@example.com", "password")).thenReturn(expectedResponse);
+        User user = new User();
+        user.setId(1L);
+        user.setIsStudent(true);
+        user.setMail("mail@example.com");
+        user.setPassword("password");
+        when(userRepository.findUserByMail("mail@example.com")).thenReturn(user);
 
         MvcResult mvcResult = mockMvc.perform(post("/user/login")
                 .contentType("application/json")
@@ -58,11 +62,10 @@ public class UserControllerTest {
                 .andReturn();
 
         ArgumentCaptor<String> mailCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
-        verify(userRepository, times(1)).findUserByMailAndPassword(mailCaptor.capture(), passwordCaptor.capture());
+        verify(userRepository, times(1)).findUserByMail(mailCaptor.capture());
         assertThat(mailCaptor.getValue()).isEqualTo("mail@example.com");
-        assertThat(passwordCaptor.getValue()).isEqualTo("password");
 
+        UserDTO expectedResponse = new UserDTO(1L, true);
         String actualResponse = mvcResult.getResponse().getContentAsString();
         assertThat(actualResponse).isEqualToIgnoringWhitespace(objectMapper.writeValueAsString(expectedResponse));
     }
@@ -82,10 +85,8 @@ public class UserControllerTest {
                 .andReturn();
 
         ArgumentCaptor<String> mailCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<String> passwordCaptor = ArgumentCaptor.forClass(String.class);
-        verify(userRepository, times(1)).findUserByMailAndPassword(mailCaptor.capture(), passwordCaptor.capture());
+        verify(userRepository, times(1)).findUserByMail(mailCaptor.capture());
         assertThat(mailCaptor.getValue()).isEqualTo("wrong@example.com");
-        assertThat(passwordCaptor.getValue()).isEqualTo("password");
 
         String actualResponse = mvcResult.getResponse().getContentAsString();
         assertThat(actualResponse).isEqualToIgnoringWhitespace(objectMapper.writeValueAsString(expectedResponse));
@@ -99,10 +100,8 @@ public class UserControllerTest {
                 .andReturn();
 
         mailCaptor = ArgumentCaptor.forClass(String.class);
-        passwordCaptor = ArgumentCaptor.forClass(String.class);
-        verify(userRepository, times(2)).findUserByMailAndPassword(mailCaptor.capture(), passwordCaptor.capture());
+        verify(userRepository, times(2)).findUserByMail(mailCaptor.capture());
         assertThat(mailCaptor.getValue()).isEqualTo("mail@example.com");
-        assertThat(passwordCaptor.getValue()).isEqualTo("wrong");
 
         actualResponse = mvcResult.getResponse().getContentAsString();
         assertThat(actualResponse).isEqualToIgnoringWhitespace(objectMapper.writeValueAsString(expectedResponse));

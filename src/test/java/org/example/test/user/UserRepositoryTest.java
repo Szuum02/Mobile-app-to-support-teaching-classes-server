@@ -5,6 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.example.dtos.user.UserDTO;
 import org.example.model.User;
 import org.example.reopsitory.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,23 +41,5 @@ public class UserRepositoryTest {
 
         User wrongUser = userRepository.findUserByMail("wrongEmail@example.com");
         assertThat(wrongUser).isNull();
-    }
-
-    @Test
-    @DatabaseSetup("classpath:user/users.xml")
-    void givenUserMail_whenFindByMail_thenReturnUserDTO() {
-        UserDTO teacherUserDTO = userRepository.findUserByMailAndPassword("teacher@example.com", "p1");
-        assertThat(teacherUserDTO.getId()).isEqualTo(1);
-        assertThat(teacherUserDTO.isStudent()).isFalse();
-
-        UserDTO studentUser = userRepository.findUserByMailAndPassword("student2@example.com", "p2");
-        assertThat(studentUser.getId()).isEqualTo(2);
-        assertThat(studentUser.isStudent()).isTrue();
-
-        UserDTO wrongMail = userRepository.findUserByMailAndPassword("wrongEmail@example.com", "");
-        assertThat(wrongMail).isNull();
-
-        UserDTO wrongPassword = userRepository.findUserByMailAndPassword("student2@example.com", "wrong");
-        assertThat(wrongPassword).isNull();
     }
 }
