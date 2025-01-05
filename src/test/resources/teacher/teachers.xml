@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <!--    teachers-->
+    <users2 user_id="1" mail="teacher@example.com" password="p1" is_student="false"/>
+    <teachers teacher_id="1" name="Teacher" lastname="1"/>
+    <users2 user_id="2" mail="teacher2@example.com" password="p2" is_student="false"/>
+    <teachers teacher_id="2" name="Teacher2" lastname="2"/>
+</dataset>

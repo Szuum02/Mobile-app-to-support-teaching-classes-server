@@ -3,10 +3,7 @@ package org.example.reopsitory;
 import org.example.dtos.Activity.LessonPointsDTO;
 import org.example.dtos.ActivityDTO;
 import org.example.dtos.ActivityPlotDTO;
-import org.example.dtos.StudentActivityDTO;
 import org.example.model.Activity;
-import org.example.model.Lesson;
-import org.example.model.Student;
 import org.example.dtos.ActivityRankingDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,13 +21,17 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
     @Query("select sum(a.points) from Activity a where a.student.id = ?1 and a.lesson.id = ?2 and cast(a.date as date) = CURRENT_DATE ")
     Integer getStudentsPointsInLesson(Long studentId, Long lessonId);
 
-    @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, sum(a.points)) from Activity a inner join a.student s " +
-            "where a.lesson.group.subject = ?1 group by s.id order by sum(a.points) desc")
+    @Query("select new org.example.dtos.ActivityRankingDTO(s.id, s.nick, s.showInRanking, " +
+            "(select sum(a1.points) from Activity a1 where a1.student.id = s.id and a1.lesson.group.subject = ?1))" +
+            "from Student s inner join s.groups g where g.subject = ?1 group by s.id " +
+            "order by (select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.subject = ?1) desc")
     List<ActivityRankingDTO> getRanking(String subject);
 
-    @Query("select new org.example.dtos.ActivityRankingDTO(s.nick, sum(a.points)," +
-            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and cast(a2.date as date) = CURRENT_DATE)) from Activity a " +
-            "inner join a.student s where a.lesson.group.id = ?1 group by s.id order by sum(a.points) desc")
+    @Query("select new org.example.dtos.ActivityRankingDTO(s.id, s.nick, s.showInRanking, " +
+            "(select sum(a1.points) from Activity a1 where a1.student.id = s.id and a1.lesson.group.id = ?1)," +
+            "(select sum(a2.points) from Activity a2 where a2.student.id = s.id and a2.lesson.group.id = ?1 and cast(a2.date as date) = CURRENT_DATE)) " +
+            "from Student s inner join s.groups g where g.id = ?1 group by s.id " +
+            "order by (select sum(a3.points) from Activity a3 where a3.student.id = s.id and a3.lesson.group.id = ?1) desc")
     List<ActivityRankingDTO> getGroupRanking(Long groupId);
 
     @Query("select new org.example.dtos.ActivityDTO(a.date, a.points) from Activity a where a.student.id = ?1 and a.lesson.group.id = ?2 order by a.date desc")

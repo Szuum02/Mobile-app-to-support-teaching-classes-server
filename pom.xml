@@ -138,7 +138,10 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.3</version>
         </dependency>
-
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.17.0</version>
+        </dependency>
 
     </dependencies>
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -52,24 +51,6 @@ public class UserController {
         user.setIsStudent(isStudent);
         userRepository.save(user);
         return user.getId();
-    }
-
-//    @GetMapping("/{mail}")
-//    public ResponseEntity<Optional<User>> test(@PathVariable("mail") String mail) {
-//        Optional<User> user = userRepository.findById(mail);
-//        return ResponseEntity.ok(user);
-//    }
-
-    @GetMapping("/teacher/showAll")
-    public List<User> findTeachers() {
-//        List<User> users = userRepository.findAllTeacher();
-        return userRepository.findAllTeacher();
-    }
-
-    @GetMapping("/students/showAll")
-    public List<User> findStudents() {
-//        List<User> users = userRepository.findAllStudents();
-        return userRepository.findAllStudents();
     }
 
     @GetMapping("/checkUniqueMail")
@@ -121,12 +102,13 @@ public class UserController {
         student.setLastname(lastName);
         student.setIndex(index);
         student.setNick(nick);
+        student.setShowInRanking(true);
         user.setStudent(student);
         student.setUser(user);
         studentRepository.save(student);
         userRepository.save(user);
-        StudentDTO studentDTO = new StudentDTO(user.getId(), name, lastName, index, nick);
-        studentDTO.setGroups(new ArrayList<>());
+        StudentDTO studentDTO = new StudentDTO(user.getId(), name, lastName, index, nick, true);
+        studentDTO.setLessons(new HashMap<>());
         return studentDTO;
     }
 
